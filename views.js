@@ -1,14 +1,9 @@
 var pythonView = Backbone.View.extend({
 	initialize: function(){
-		this.render();
-	},
-	render: function(){
-		this.$el.append(pythonTemplate());
-		hljs.configure({   // optionally configure hljs
-			languages: ['python']
-		});
+		this.$el.html(pythonTemplate());
 		$('.handle').drags();
-		var myCodeMirror = CodeMirror.fromTextArea($('#editor')[0], {
+		var editor = CodeMirror($('#editor')[0], {
+			value: "print(\"Hello World!\")",
 			mode: {
 	            name: "text/x-python",
 	            version: 2,
@@ -17,7 +12,8 @@ var pythonView = Backbone.View.extend({
 			indentUnit: 4,
 			indentWithTabs: true,
 			lineWrapping: true,
-			lineNumbers: true
+			lineNumbers: true,
+			autoRefresh: true
 		});
 	}
 });

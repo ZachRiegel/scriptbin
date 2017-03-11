@@ -7,7 +7,7 @@ var pythonTemplate = _.template(`
 	</div>
 	<div class="divider">
 		<div class="tomato">
-			<textarea id="editor">print('Hello World!')</textarea>
+			<div class="full" id="editor"></div>
 		</div>
 		<div class="handle"></div>
 		<div class="blue">
