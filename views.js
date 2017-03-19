@@ -241,8 +241,8 @@ for y in range(height):
 			$('#save').click(function(){
 				title=$('#title').text();
 				if(title==="Untitled"){
-					alert("Please name document first.");
-					return;
+					title='quicksave';
+					$('#title').text(title);
 				}
 				index=$.inArray(title, docList);
 				if(index>=0){
@@ -262,10 +262,13 @@ for y in range(height):
 					else{
 						alert("The save went wrong somewhere.");
 					}
+					return false;
 				}
+				return true;
 			});
 			//save list of files on exit
 			$( window ).on('unload', function() {
+					$('#save').trigger('click');
 				localStorage.setItem("docList", LZString.compress(JSON.stringify(docList)));
 			});
 			//attach list of files we know exist to the file selector
@@ -274,6 +277,7 @@ for y in range(height):
 		else{
 			$("#save").addClass("disabled");
 			$("#file").addClass("disabled");
+			alert("Local storage not available. You will not be able to save or open files.");
 		}
 		//if query string exists and has code action
 		var urlParams = new URLSearchParams(window.location.search);
