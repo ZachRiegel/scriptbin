@@ -1,15 +1,40 @@
-.scrollable{
-	overflow: scroll;
+html{
+	overflow-y: hidden;
 }
 .menuBar{
 	width: 100%;
 	display: flex;
 	flex-direction: row;
+}
+.splashBar{
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+}
+.title{
 	margin: 5px;
 }
-.menuItem{
-	padding-left: 10px;
-	padding-right: 10px;
+.pageTitle{
+	display: inline-block;
+	margin-right: 0;
+	padding-right: 0;
+	font-size: 150%;
+	font-weight: 600;
+}
+.postfix{
+	margin-left: 0;
+	padding-left: 0;
+	display: inline-block;
+	font-size: 100%;
+	font-weight: 600;
+}
+.infoBar{
+	display: flex;
+	direction: row;
+}
+.item{
+	padding-left: 5px;
+	padding-right: 5px;
 }
 .content{
 	width:100%;
@@ -30,7 +55,6 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	background: blue;
 }
 .CodeMirror{
 	flex-grow:1;
@@ -39,61 +63,10 @@
 	position: relative;
 	flex-grow: 1;
 	width: 50%;
+	overflow: none;
 }
 .handle {
-  width: 5px;
-  text-align: center;
-  background-color: grey;
-  transition: all ease-in 0.1s;
-}
-
-.draggable { background: pink; }
-
-body {
-  background-color: #eee;
-  color: #555;
-}
-/* The console container element */
-#console {
-    position: absolute;
-    background-color:black;
-    width: 100%;
-    height: 100%;
-}
-#console pre {
-  background-color: black;
-}
-/* The inner console element. */
-.jqconsole {
-    padding: 10px;
-}
-/* The cursor. */
-.jqconsole-cursor {
-    background-color: gray;
-}
-/* The cursor color when the console looses focus. */
-.jqconsole-blurred .jqconsole-cursor {
-    background-color: #666;
-}
-/* The current prompt text color */
-.jqconsole-prompt {
-    color: #0d0;
-}
-/* The command history */
-.jqconsole-old-prompt {
-    color: #0b0;
-    font-weight: normal;
-}
-/* The text color when in input mode. */
-.jqconsole-input {
-    color: #dd0;
-}
-/* Previously entered input. */
-.jqconsole-old-input {
-    color: #bb0;
-    font-weight: normal;
-}
-/* The text color of the output. */
-.jqconsole-output {
-    color: white;
+	width: 5px;
+	text-align: center;
+	transition: all ease-in 0.1s;
 }

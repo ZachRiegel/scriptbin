@@ -4,6 +4,7 @@ var jqconsole=null;
 var ticking=0;
 var counter=1;
 var codeLines=[];
+var theme='default';
 var _escape= function(value) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
@@ -32,15 +33,15 @@ def prompt(text):
 		});
 	''');
 
-_markerDict={}
+_anchorDict={}
 
-def marker(name):
-	global _markerDict
-	_markerDict[name]=str(js.eval(\'counter\'))
+def anchor(name):
+	global _anchorDict
+	_anchorDict[name]=str(js.eval(\'counter\'))
 
 def goto(marker):
 	global _markerDict
-	js.eval('''counter='''+_markerDict[marker]+''';''')
+	js.eval('''counter='''+_anchorDict[marker]+''';''')
 
 def skip():
 	pass
@@ -48,6 +49,9 @@ def skip():
 \n`.split("\n");
 
 var pythonView = Backbone.View.extend({
+	save: function(){
+
+	},
 	verbose_exec: function(code, init_run) {
 		view=this;
 		var init_start = new Date();
@@ -86,7 +90,20 @@ var pythonView = Backbone.View.extend({
 	initialize: function(){
 		view=this;
 		this.$el.html(pythonTemplate());
+
+		//enable middle handle
 		$('.handle').drags();
+
+
+		//set color scheme changer
+		$('#theme-selector')
+			.dropdown({
+				onChange: function(value, text, $selectedItem) {
+				 	$('#theme').attr('href', value);
+				}	
+			});
+
+		//enable editor
 		var editor = CodeMirror($('#editor')[0], {
 			value: "print(\"Hello World!\")",
 			mode: {
@@ -98,11 +115,16 @@ var pythonView = Backbone.View.extend({
 			indentWithTabs: true,
 			lineWrapping: true,
 			lineNumbers: true,
-			autoRefresh: true
+			autoRefresh: true,
+			theme: "base"
 		});
+
+		
+
 	    // Global vars, for easy debugging in console.
 	    jqconsole = $('#console').jqconsole('', '>>> ');
 	    $("#run").click(function() {
+			//view.save();
 	        jqconsole.Reset();
 	        jqconsole.Write('exec...', 'jqconsole-output');
 	        var code=editor.getValue();
