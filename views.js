@@ -195,9 +195,7 @@ for y in range(height):
 # If you delete this blank line, a syntax error will occur.
 # If this line contains only a tab (or other whitespace) the program will error. Be careful!
 print 'Done!'
-	
-# That's all there is in terms of differences! Code away!
-	`,
+# That's all there is in terms of differences! Code away!`,
 			mode: {
 	            name: "text/x-python",
 	            version: 2,
