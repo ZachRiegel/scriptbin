@@ -209,7 +209,7 @@ for y in range(height):
 	    //enable button to get shareable link
 	    $("#share").click(function(){
 			var code=escape(LZString.compress(editor.getValue()));
-			prompt('Use this link to share your code:',window.location.protocol + "//" + window.location.host + window.location.pathname+'?title='+$('#title').text() + '&code='+code);
+			prompt('Use this link to share your code:',window.location.protocol + "//cthaehapp.com/"+'?title='+$('#title').text() + '&code='+code);
 	    });
 
 		//if we have the ability to store things locally, enable store-y things
