@@ -4,8 +4,12 @@
 .menuBar{
 	width: 100%;
 	display: flex;
-	flex-direction: row-reverse;
+	flex-direction: row;
 	margin: 5px;
+}
+.menuItem{
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .content{
 	width:100%;
@@ -18,19 +22,23 @@
 	display: flex;
 	flex-direction: row;
 }
-.tomato{
+.leftPanel{
 	flex-grow: 1;
 	width: 50%;
 }
-.editor{
-	width: 100%;
+.full{
+	display: flex;
+	flex-direction: column;
 	height: 100%;
+	background: blue;
 }
-.blue{
+.CodeMirror{
+	flex-grow:1;
+}
+.rightPanel{
+	position: relative;
 	flex-grow: 1;
 	width: 50%;
-	background-color: black;
-	font-color: green;
 }
 .handle {
   width: 5px;
@@ -44,4 +52,48 @@
 body {
   background-color: #eee;
   color: #555;
+}
+/* The console container element */
+#console {
+    position: absolute;
+    background-color:black;
+    width: 100%;
+    height: 100%;
+}
+#console pre {
+  background-color: black;
+}
+/* The inner console element. */
+.jqconsole {
+    padding: 10px;
+}
+/* The cursor. */
+.jqconsole-cursor {
+    background-color: gray;
+}
+/* The cursor color when the console looses focus. */
+.jqconsole-blurred .jqconsole-cursor {
+    background-color: #666;
+}
+/* The current prompt text color */
+.jqconsole-prompt {
+    color: #0d0;
+}
+/* The command history */
+.jqconsole-old-prompt {
+    color: #0b0;
+    font-weight: normal;
+}
+/* The text color when in input mode. */
+.jqconsole-input {
+    color: #dd0;
+}
+/* Previously entered input. */
+.jqconsole-old-input {
+    color: #bb0;
+    font-weight: normal;
+}
+/* The text color of the output. */
+.jqconsole-output {
+    color: white;
 }
