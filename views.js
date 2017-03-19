@@ -277,8 +277,6 @@ for y in range(height):
 		}
 		//if query string exists and has code action
 		var urlParams = new URLSearchParams(window.location.search);
-		console.log(urlParams.has('code'));
-		console.log(urlParams.has('title'));
 		if(urlParams.has('code')&&urlParams.has('title')){
 			//we have a code snippet in the url
 			var code='#The file formerly known as '+urlParams.get('title')+'\n';
