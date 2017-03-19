@@ -5,6 +5,8 @@ var ticking=0;
 var counter=1;
 var codeLines=[];
 var theme='default';
+var docList=null;
+var canStore=false;
 var _escape= function(value) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
@@ -22,14 +24,13 @@ def prompt(text):
 		jqconsole.SetPromptLabel(\\"'''+text+'''\\", \\'jqconsole-output\\');
 		jqconsole.Prompt(true, function (input) {
 			 var code=\\"_inputQueue.append(\\\\"\\"+input+\\"\\\\")\\";
-			 console.log(code);
 			 code=_escape(code);
-			 console.log(code);
 			 code=\\"r = _internalConsole.push(\\\\'\\" + code  + \\"\\\\')\\";
-			 console.log(code);
 			 vm._execute_source(code);
 			 ticking-=1;
-			 vm.tick();
+			 if(counter<codeLines.length&&ticking==0){
+					setTimeout(function(){ vm.tick(); }, 0);
+			 }
 		});
 	''');
 
@@ -49,8 +50,39 @@ def skip():
 \n`.split("\n");
 
 var pythonView = Backbone.View.extend({
-	save: function(){
-
+	testStorage: function(){
+	    var test = 'test';
+	    try {
+	        localStorage.setItem(test, test);
+	        localStorage.removeItem(test);
+	        return true;
+	    } catch(e) {
+	        return false;
+	    }
+	},
+	updateOpenFile: function(){
+		if(docList.length>0){
+			$('#filebin').html('');
+			_.each(docList, function(title){
+				$('#filebin').append(fileTemplate({filename: title}));
+			});
+			$('.delete-button').click(function(e){
+				e.stopPropagation();
+				title=$(this).data('value');
+				if(confirm("Are you sure you want to delete \""+title+".py\"?")){
+					index=$.inArray(title, docList);
+					if(index>=0){
+						docList.splice(index, 1);
+					}
+					localStorage.removeItem('file-'+title);
+				}
+				view.updateOpenFile();
+			});
+			$('#file').removeClass('disabled');
+		}
+		else{
+			$('#file').addClass('disabled');
+		}
 	},
 	verbose_exec: function(code, init_run) {
 		view=this;
@@ -65,9 +97,8 @@ var pythonView = Backbone.View.extend({
 			vm.tick=function(){
 				vm=this;
 				var code = 'r = _internalConsole.push(\'' + _escape(codeLines[counter-1]) + '\')';
-				console.log(codeLines[counter-1]);
-				counter+=1;
 				vm._execute_source(code);
+				counter+=1;
 				if(counter<codeLines.length&&ticking==0){
 					setTimeout(function(){ vm.tick(); }, 0);
 				}
@@ -80,7 +111,6 @@ var pythonView = Backbone.View.extend({
 			vm._execute_source("r = _internalConsole.push(\'_inputQueue=[]\')");
 			codeLines=setup;
 			codeLines=codeLines.concat(code.split("\n"),["",""]);
-			console.log(codeLines);
 			counter=1;
 			vm.tick();
 		}, function(err) {
@@ -91,21 +121,66 @@ var pythonView = Backbone.View.extend({
 		view=this;
 		this.$el.html(pythonTemplate());
 
+		canStore=view.testStorage();
+
 		//enable middle handle
 		$('.handle').drags();
 
+		//disable newline in file title
+		$("#title").keypress(function(e){ return e.which != 13; });
 
 		//set color scheme changer
 		$('#theme-selector')
 			.dropdown({
 				onChange: function(value, text, $selectedItem) {
 				 	$('#theme').attr('href', value);
+				 	//update key if we can
+				 	if(canStore){
+				 		localStorage.setItem("theme", value);
+				 	}
 				}	
 			});
 
 		//enable editor
 		var editor = CodeMirror($('#editor')[0], {
-			value: "print(\"Hello World!\")",
+			value: `prompt("Enter your name: ")
+name=readPrompt()
+print "Hello", name+"!"
+
+prompt("Number of times to iterate: ")
+thresh=int(readPrompt())
+print("Fibonacci-ing:")
+count=0
+fprev=0
+fcurrent=1
+anchor("anchor-for-a-goto")
+fnew=fcurrent+fprev
+fprev=fcurrent
+fcurrent=fnew
+count+=1
+print(fnew)
+goto("anchor-for-a-goto") if count<thresh else skip()
+
+print "\\\"Pathological monsters!\\\" cried a terrified mathematician."
+minX = -2.0
+maxX = 1.0
+width = 115
+height = 35
+aspectRatio = 2
+chars = " .,-:;i+hHM$*#@ "
+yScale = (maxX-minX)*(float(height)/width)*aspectRatio
+
+for y in range(height):
+    line = ""
+    for x in range(width):
+        c = complex(minX+x*(maxX-minX)/width, y*yScale/height-yScale/2)
+        z = c
+        for char in chars:
+            if abs(z) > 2:
+                break
+            z = z*z+c
+        line += char
+    print line`,
 			mode: {
 	            name: "text/x-python",
 	            version: 2,
@@ -119,10 +194,10 @@ var pythonView = Backbone.View.extend({
 			theme: "base"
 		});
 
-		
-
-	    // Global vars, for easy debugging in console.
+	    // Enable console
 	    jqconsole = $('#console').jqconsole('', '>>> ');
+
+	    //enable button to run code
 	    $("#run").click(function() {
 			//view.save();
 	        jqconsole.Reset();
@@ -131,12 +206,96 @@ var pythonView = Backbone.View.extend({
 	        view.verbose_exec(code, init_run=false);
 	    });
 
+	    //enable button to get shareable link
+	    $("#share").click(function(){
+			var code=escape(LZString.compress(editor.getValue()));
+			prompt('Use this link to share your code:',window.location.protocol + "//" + window.location.host + window.location.pathname+'?title='+$('#title').text() + '&code='+code);
+	    });
+
+		//if we have the ability to store things locally, enable store-y things
+		if(canStore){
+			//enable file browser functionality
+			$('#file')
+			.dropdown({
+				onChange: function(value, text, $selectedItem) {
+					$("#title").text(value);
+					editor.getDoc().setValue(LZString.decompress(localStorage.getItem('file-'+value)));
+				}
+			});
+			theme=localStorage.getItem("theme");
+			if(theme!=null){
+				$('#theme-selector')
+					.dropdown('set selected', theme);
+			}
+
+			//set up tracker of which files the user owns
+
+			docListTemp=localStorage.getItem("docList");
+			if(docListTemp==null){
+				docList=[];
+			}
+			else{
+				docList=JSON.parse(LZString.decompress(docListTemp));
+			}
+			//save the current file when we click
+			$('#save').click(function(){
+				title=$('#title').text();
+				if(title==="Untitled"){
+					alert("Please name document first.");
+					return;
+				}
+				index=$.inArray(title, docList);
+				if(index>=0){
+					docList.splice(index, 1);
+					docList.unshift(title);
+				}
+				else{
+					docList.unshift(title);
+				}
+				try {
+					localStorage.setItem("file-"+title, LZString.compress(editor.getValue()));
+					view.updateOpenFile();
+				} catch (e) {
+					if (e == QUOTA_EXCEEDED_ERR) {
+						alert('We don\'t have space to store this! Perhaps delete some of your other files?');
+					}
+					else{
+						alert("The save went wrong somewhere.");
+					}
+				}
+			});
+			//save list of files on exit
+			$( window ).on('unload', function() {
+				localStorage.setItem("docList", LZString.compress(JSON.stringify(docList)));
+			});
+			//attach list of files we know exist to the file selector
+			view.updateOpenFile();
+		}
+		else{
+			$("#save").addClass("disabled");
+			$("#file").addClass("disabled");
+		}
+		//if query string exists and has code action
+		var urlParams = new URLSearchParams(window.location.search);
+		console.log(urlParams.has('code'));
+		console.log(urlParams.has('title'));
+		if(urlParams.has('code')&&urlParams.has('title')){
+			//we have a code snippet in the url
+			var code='#The file formerly known as '+urlParams.get('title')+'\n';
+			code+=LZString.decompress(unescape(urlParams.get('code')));
+			$("#title").text('shared');
+					editor.getDoc().setValue(code);
+			//remove query string from url
+		    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+			window.history.pushState({path:newurl},'',newurl);
+		}
+
 	    // Display a helpful message and twiddle thumbs as it loads.
-	    jqconsole.Write('Loading PyPy.js.\n\n', 'jqconsole-output');
-	    jqconsole.Write('It\'s big, so this might take a while...', 'jqconsole-output');
+	    jqconsole.Write('Loading Python environment\n\n', 'jqconsole-output');
+	    jqconsole.Write('This may take a bit...', 'jqconsole-output');
 
 	    view.verbose_exec(
-	        'print "Welcome to PyPy.js!\\n";import sys;print "Python v"+sys.version',
+	        'import sys;print "Python v"+sys.version',
 	        init_run=true
 	    );
 	    editor.refresh();

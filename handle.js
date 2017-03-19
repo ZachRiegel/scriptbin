@@ -21,16 +21,14 @@
             } else {
                 var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
             }
-            var z_idx = $drag.css('z-index'),
-                drg_h = $drag.outerHeight(),
+            var drg_h = $drag.outerHeight(),
                 drg_w = $drag.outerWidth(),
                 pos_y = $drag.offset().top + drg_h - e.pageY,
                 pos_x = $drag.offset().left + drg_w - e.pageX;
-            $drag.css('z-index', 1000).parents().on("mousemove", function(e) {
-              
-              var prev = $('.draggable').prev();
-              var next = $('.draggable').next(); 
-              
+            var prev=$('.draggable').prev();
+            var next=$('.draggable').next(); 
+            $drag.parents().on("mousemove", function(e) {
+              e.preventDefault();
               // Assume 50/50 split between prev and next then adjust to
               // the next X for prev
               if (prev.outerWidth()==null||next.outerWidth()==null){
@@ -51,7 +49,8 @@
                
                 $(document).on("mouseup", function() {
                   $('body').css('cursor', priorCursor);
-                    $('.draggable').removeClass('draggable').css('z-index', z_idx);
+                  $('.draggable').removeClass('draggable').parents().off("mousemove");
+                  $(document).off("mouseup");
                 });
             });
             e.preventDefault(); // disable selection

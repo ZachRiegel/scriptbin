@@ -2,9 +2,7 @@ var pythonTemplate = _.template(`
 	<div class="splashBar">
 		<div class="infoBar">
 			<div class="title">
-				<div class="pageTitle" contenteditable=True>
-					Untitled
-				</div>
+				<div class="pageTitle" contenteditable=True id="title" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">Untitled</div>
 				<div class="postfix">
 					.py
 				</div>
@@ -24,13 +22,16 @@ var pythonTemplate = _.template(`
 				</button>
 			</div>
 			<div class="menuItem">
-				<button class="ui button compact" id="open">
+				<div class="ui disabled compact search dropdown labeled icon button" id="file">
 					<i class="folder icon"></i>
-					Open File
-				</button>
+					<div>File</div>
+					<div class="menu" id="filebin">
+						
+					</div>
+				</div>
 			</div>
 			<div class="menuItem">
-				<button class="ui button compact" id="export">
+				<button class="ui button compact" id="share">
 					<i class="share icon"></i>
 					Share
 				</button>
@@ -55,6 +56,18 @@ var pythonTemplate = _.template(`
 		<div class="handle"></div>
 		<div class="rightPanel">
 			<div id="console">
+			</div>
+		</div>
+	</div>
+`);
+var fileTemplate = _.template(`
+	<div class="item" data-value="<%= filename %>">
+		<div class="align-center">
+			<div class="emphasis1"><%= filename %>.py</div>
+			<div class="right">
+				<button class="ui mini compact red icon button delete-button" data-value="<%= filename %>">
+					<i class="trash icon"></i>
+				</button>
 			</div>
 		</div>
 	</div>
