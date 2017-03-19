@@ -143,33 +143,42 @@ var pythonView = Backbone.View.extend({
 
 		//enable editor
 		var editor = CodeMirror($('#editor')[0], {
-			value: `prompt("Enter your name: ")
+			value: `# There are some minor differences between this and standard python 2.7.9
+# These differences are summarized in the following code snippets.
+# It is highly encouraged that you do a quick readthrough
+
+# Due to running in a javascript environment the "input()" and "raw_input()" commands will block indefinitely
+# This means that we have two new functions "prompt()" and "readPrompt()" for standard io operations
+# These functions only work on lines that are not indented in any way.
+prompt("Enter your name: ") # line is not indented, code executes
+#	prompt("Enter thing: ") # This would error
 name=readPrompt()
 print "Hello", name+"!"
 
-prompt("Number of times to iterate: ")
-thresh=int(readPrompt())
-print("Fibonacci-ing:")
-count=0
-fprev=0
-fcurrent=1
-anchor("anchor-for-a-goto")
-fnew=fcurrent+fprev
-fprev=fcurrent
-fcurrent=fnew
-count+=1
-print(fnew)
-goto("anchor-for-a-goto") if count<thresh else skip()
+# Wait, I'm writing a program with an input driven loop. How do I do this without indenting?
+# To solve this problem we now have the functions "anchor(label)" and "goto(label)"
+# When you call goto it will continue to execute the program at the last anchor with the same label
+# These functions have undefined behavior if they are on a line that is indented
+l=[]
+anchor('some anchor')
+prompt("Enter a number, 0 to quit: ")
+val=int(readPrompt())
+l.append(val) if val!=0 else skip() #skip() is a placeholder function that does nothing, it is also new
+goto('some anchor') if val!=0 else skip()
+print 'The sum of the numbers is:', sum(l)
 
-print "\\\"Pathological monsters!\\\" cried a terrified mathematician."
+# An excessive use of goto and anchor functions can make programs really, really hard to read
+# However, they only need to be used when dealing with prompt/readPrompt
+# When you are not using these functions you may use python's normal control structures
+# We are going to draw a mandelbrot set to demonstrate
+print "\\"Pathological monsters!\\" cried a terrified mathematician."
 minX = -2.0
 maxX = 1.0
-width = 115
-height = 35
+width = 90
+height = 30
 aspectRatio = 2
 chars = " .,-:;i+hHM$*#@ "
 yScale = (maxX-minX)*(float(height)/width)*aspectRatio
-
 for y in range(height):
     line = ""
     for x in range(width):
@@ -180,7 +189,15 @@ for y in range(height):
                 break
             z = z*z+c
         line += char
-    print line`,
+    print line
+
+# See this ^ blank line? It is required to have a blank line after every indented block
+# If you delete this blank line, a syntax error will occur.
+# If this line contains only a tab (or other whitespace) the program will error. Be careful!
+print 'Done!'
+	
+# That's all there is in terms of differences! Code away!
+	`,
 			mode: {
 	            name: "text/x-python",
 	            version: 2,
