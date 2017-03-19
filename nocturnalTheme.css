@@ -1,0 +1,135 @@
+.splashBar{
+    background-color: #d7d7df;
+    border-bottom: 1px solid black;
+}
+
+.pageTitle{
+    color: #101010;
+}
+
+.postfix{
+    color: #202020;
+}
+
+.ui.button.t-primary{
+    background-color: #0000bb;
+    color: #fff;
+    text-shadow: none;
+    background-image: none;
+}
+.ui.button.t-primary:hover{
+    background-color: #0000ab;
+}
+.ui.button.t-primary:active{
+    background-color: #00009b;
+}
+.ui.button.t-secondary{
+    background-color: #008ad2;
+    color: #fff;
+    text-shadow: none;
+    background-image: none;
+}
+.ui.button.t-secondary:hover{
+    background-color: #007ae2;
+}
+.ui.button.t-secondary:active{
+    background-color: #006ad2;
+}
+
+.handle{
+    background-color: grey;
+}
+
+.draggable { background: pink; }
+
+body {
+  background-color: #eee;
+  color: #555;
+}
+/* The console container element */
+#console {
+    position: absolute;
+    background-color: #1e1e1e;
+    width: 100%;
+    height: 100%;
+}
+#console pre {
+  background-color: #1e1e1e;
+}
+/* The inner console element. */
+.jqconsole {
+    padding: 15px;
+    overflow: hidden;
+}
+/* The cursor. */
+.jqconsole-cursor {
+    background-color: gray;
+}
+/* The cursor color when the console loses focus. */
+.jqconsole-blurred .jqconsole-cursor {
+    background-color: #666;
+}
+/* The current prompt text color */
+.jqconsole-prompt {
+    color: #008ad2;
+}
+/* The command history */
+.jqconsole-old-prompt {
+    color: #008ad2;
+    font-weight: normal;
+}
+/* The text color when in input mode. */
+.jqconsole-input {
+    color: #008ad2;
+}
+/* Previously entered input. */
+.jqconsole-old-input {
+    color: #008ad2;
+    font-weight: normal;
+}
+/* The text color of the output. */
+.jqconsole-output {
+    color: white;
+}
+
+.cm-s-base.CodeMirror { background: #1e1e1e; color: #ff79c6; }
+.cm-s-base div.CodeMirror-selected { background: #44475a; }
+.cm-s-base .CodeMirror-line::selection, .cm-s-base .CodeMirror-line > span::selection, .cm-s-base .CodeMirror-line > span > span::selection { background: rgba(179, 101, 57, .99); }
+.cm-s-base .CodeMirror-line::-moz-selection, .cm-s-base .CodeMirror-line > span::-moz-selection, .cm-s-base .CodeMirror-line > span > span::-moz-selection { background: rgba(179, 101, 57, .99); }
+.cm-s-base .CodeMirror-gutters { background: #111111; border-right: 1px solid #0a0a15; }
+.cm-s-base .CodeMirror-guttermarker { color: #d0d0d0; }
+.cm-s-base .CodeMirror-guttermarker-subtle { color: #d0d0d0; }
+.cm-s-base .CodeMirror-linenumber { color: #7d7d7d; }
+.cm-s-base .CodeMirror-cursor { border-left: 1px solid #889aff; }
+
+.cm-s-base span.cm-quote      { color: #d0f38c; }
+.cm-s-base span.cm-string     { color: #d0f38c; }
+.cm-s-base span.cm-string-2   { color: #d0f38c; }
+
+.cm-s-base span.cm-keyword    { color: #39a8cc; }
+.cm-s-base span.cm-def        { color: #39a8cc; }
+.cm-s-base span.cm-atom       { color: #39a8cc; }
+
+.cm-s-base span.cm-operator   { color: #39a8cc; }
+
+.cm-s-base span.cm-number     { color: #44aa41; }
+
+.cm-s-base span.cm-variable   { color: #f8f8f2; }
+.cm-s-base span.cm-variable-2 { color: #f8f8f2; }
+.cm-s-base span.cm-variable-3 { color: #f8f8f2; }
+.cm-s-base span.cm-meta       { color: #f8f8f2; }
+
+.cm-s-base span.cm-comment    { color: #6272a4; }
+
+.cm-s-base span.cm-special    { color: #7290d9; }
+.cm-s-base span.cm-attribute  { color: #7290d9; }
+.cm-s-base span.cm-bracket    { color: #7290d9; }
+.cm-s-base span.cm-builtin    { color: #7290d9; }
+.cm-s-base span.cm-property   { color: #7290d9; }
+.cm-s-base span.cm-qualifier  { color: #7290d9; }
+.cm-s-base span.cm-tag        { color: #7290d9; }
+
+.cm-s-base span.cm-error      { color: #9d1e15; }
+
+.cm-s-base .CodeMirror-activeline-background { background: #353535; }
+.cm-s-base .CodeMirror-matchingbracket { outline:1px solid grey; color:black !important; }
