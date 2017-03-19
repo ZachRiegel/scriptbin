@@ -17,11 +17,23 @@
     text-shadow: none;
     background-image: none;
 }
+.ui.button.t-primary:hover{
+    background-color: #0000ab;
+}
+.ui.button.t-primary:active{
+    background-color: #00009b;
+}
 .ui.button.t-secondary{
     background-color: #008ad2;
     color: #fff;
     text-shadow: none;
     background-image: none;
+}
+.ui.button.t-secondary:hover{
+    background-color: #007ae2;
+}
+.ui.button.t-secondary:active{
+    background-color: #006ad2;
 }
 
 .handle{
