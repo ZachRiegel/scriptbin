@@ -7,6 +7,7 @@ var codeLines=[];
 var theme='default';
 var docList=null;
 var canStore=false;
+var editor=null;
 var _escape= function(value) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
@@ -142,7 +143,7 @@ var pythonView = Backbone.View.extend({
 			});
 
 		//enable editor
-		var editor = CodeMirror($('#editor')[0], {
+		editor = CodeMirror($('#editor')[0], {
 			value: `# There are some minor differences between this and standard python 2.7.9
 # These differences are summarized in the following code snippets.
 # It is highly encouraged that you do a quick readthrough
@@ -206,6 +207,8 @@ print 'Done!'
 			lineWrapping: true,
 			lineNumbers: true,
 			autoRefresh: true,
+			scrollbarStyle: "native",
+			viewportMargin: Infinity,
 			theme: "base"
 		});
 

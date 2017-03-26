@@ -50,8 +50,7 @@ var pythonTemplate = _.template(`
 		</div>
 	</div>
 	<div class="divider">
-		<div class="leftPanel">
-			<div class="full" id="editor"></div>
+		<div class="leftPanel" id="editor">
 		</div>
 		<div class="handle"></div>
 		<div class="rightPanel">
