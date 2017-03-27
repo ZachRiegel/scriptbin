@@ -311,13 +311,6 @@ print 'Done!'
 		}
 
 	    // Display a helpful message and twiddle thumbs as it loads.
-	    jqconsole.Write('Loading Python environment\n\n', 'jqconsole-output');
-	    jqconsole.Write('This may take a bit...', 'jqconsole-output');
-
-	    view.verbose_exec(
-	        'import sys;print "Python v"+sys.version',
-	        init_run=true
-	    );
-	    editor.refresh();
+	    jqconsole.Write('Python 2.7.9\n', 'jqconsole-output');
 	}
 });
