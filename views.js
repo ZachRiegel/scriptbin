@@ -164,8 +164,7 @@ l=[]
 anchor('some anchor')
 prompt("Enter a number, 0 to quit: ")
 val=int(readPrompt())
-l.append(val) if val!=0 else skip() #skip() is a placeholder function that does nothing, it is also new
-goto('some anchor') if val!=0 else skip()
+if val!=0: l.append(val); goto('some anchor')
 print 'The sum of the numbers is:', sum(l)
 
 # An excessive use of goto and anchor functions can make programs really, really hard to read
