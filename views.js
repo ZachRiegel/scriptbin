@@ -89,6 +89,7 @@ var pythonView = Backbone.View.extend({
 		view=this;
 		var init_start = new Date();
 		vm = new pypyjs();
+		ticking=0;
 		// Send all VM output to the console.
 		vm.stdout = vm.stderr = function(data) {
 			jqconsole.Write(data, 'jqconsole-output');
