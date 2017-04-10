@@ -106,12 +106,12 @@ body {
 .cm-s-base span.cm-string     { color: #189b13; }
 .cm-s-base span.cm-string-2   { color: #189b13; }
 
+.cm-s-base span.cm-def        { color: #FF7031; }
+
 .cm-s-base span.cm-keyword    { color: #39a8cc; }
-.cm-s-base span.cm-def        { color: #39a8cc; }
 .cm-s-base span.cm-atom       { color: #39a8cc; }
 
 .cm-s-base span.cm-operator   { color: #39a8cc; }
-
 .cm-s-base span.cm-number     { color: #44aa41; }
 
 .cm-s-base span.cm-variable   { color: #bdae9d; }
