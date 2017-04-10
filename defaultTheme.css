@@ -58,7 +58,7 @@ body {
 /* The inner console element. */
 .jqconsole {
     padding: 15px;
-    overflow: hidden;
+    overflow: visible;
 }
 /* The cursor. */
 .jqconsole-cursor {
