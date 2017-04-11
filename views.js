@@ -8,6 +8,7 @@ var theme='default';
 var docList=null;
 var canStore=false;
 var editor=null;
+var runNum=0;
 var _escape= function(value) {
   return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
@@ -21,6 +22,7 @@ def readPrompt():
 def prompt(text):
 	global _inputQueue
 	js.eval('''
+		currentRun=runNum;
 		ticking+=1;
 		jqconsole.SetPromptLabel(\\"'''+text+'''\\", \\'jqconsole-output\\');
 		jqconsole.Prompt(true, function (input) {
@@ -29,7 +31,7 @@ def prompt(text):
 			 code=\\"r = _internalConsole.push(\\\\'\\" + code  + \\"\\\\')\\";
 			 vm._execute_source(code);
 			 ticking-=1;
-			 if(counter<codeLines.length&&ticking==0){
+			 if(counter<codeLines.length&&ticking==0&&currentRun==runNum){
 					setTimeout(function(){ vm.tick(); }, 0);
 			 }
 		});
@@ -87,6 +89,7 @@ var pythonView = Backbone.View.extend({
 	},
 	verbose_exec: function(code, init_run) {
 		view=this;
+		runNum+=1;
 		var init_start = new Date();
 		vm = new pypyjs();
 		ticking=0;
@@ -97,11 +100,12 @@ var pythonView = Backbone.View.extend({
 		var pseudo_status = setInterval(function(){ vm.stdout("."); }, 500);
 		vm.ready().then(function() {
 			vm.tick=function(){
+				currentRun=runNum;
 				vm=this;
 				var code = 'r = _internalConsole.push(\'' + _escape(codeLines[counter-1]) + '\')';
 				vm._execute_source(code);
 				counter+=1;
-				if(counter<codeLines.length&&ticking==0){
+				if(counter<codeLines.length&&ticking==0&&currentRun==runNum){
 					setTimeout(function(){ vm.tick(); }, 0);
 				}
 			}
