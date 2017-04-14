@@ -221,7 +221,7 @@ print 'Done!'
 
 	    //enable button to run code
 	    $("#run").click(function() {
-			//view.save();
+			$('#save').click();
 	        jqconsole.Reset();
 	        jqconsole.Write('exec...', 'jqconsole-output');
 	        var code=editor.getValue();
