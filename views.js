@@ -44,7 +44,7 @@ def anchor(name):
 	_anchorDict[name]=str(js.eval(\'counter\'))
 
 def goto(marker):
-	global _markerDict
+	global _anchorDict
 	js.eval('''counter='''+_anchorDict[marker]+''';''')
 
 def skip():
@@ -231,7 +231,7 @@ print 'Done!'
 	    //enable button to get shareable link
 	    $("#share").click(function(){
 			var code=escape(LZString.compress(editor.getValue()));
-			prompt('Use this link to share your code:',window.location.protocol + "//cthaehapp.com/"+'?title='+$('#title').text() + '&code='+code);
+			prompt('Use this link to share your code:',window.location.protocol + "//zachriegel.github.io/scriptbin//"+'?title='+$('#title').text() + '&code='+code);
 	    });
 
 		//if we have the ability to store things locally, enable store-y things
